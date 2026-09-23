@@ -9,7 +9,11 @@ export default function CandidateCard({
 
   function handleClick(e, fn) {
     e.stopPropagation(); //stop event from bubbling up and opening CandidateDetail
-    fn(); //run whatever function is passed in
+    // defensive check to verify fn is a function before executing to prevent
+    // unhandled runtime errors
+    if (typeof fn === "function") {
+      fn(); //run whatever function is passed in
+    }
   }
   return (
     // Parent passes an onClick function which gets attached to the card in the outer div.
@@ -21,7 +25,7 @@ export default function CandidateCard({
       <p className="card-name">
         {candidate.first_name} {candidate.last_name}
       </p>
-      <p className="email">{candidate.email}</p>
+      <p className="card-email">{candidate.email}</p>
       <div className="card-actions">
         {/* Each card can show more than one button.
         The Parent passes an array which decides which button to show.
@@ -35,6 +39,7 @@ export default function CandidateCard({
           // Schedule button calls onClick because it opens the Candidate Detail page where the
           // schedule form lives.
           <button
+            type="button"
             className="btn btn-primary"
             onClick={(e) => handleClick(e, onClick)}
           >
@@ -43,9 +48,14 @@ export default function CandidateCard({
         )}
         {actions.includes("shortlist") && (
           <button
+            type="button"
             className="btn btn-plain"
             onClick={(e) =>
-              handleClick(e, () => onStatusChange(candidate.id, "shortlisted"))
+              handleClick(e, () =>
+                // check if onStatusChange not equals undefined or null
+                // does nothing if it is so it is skipped instead of crashing
+                onStatusChange?.(candidate.id, "shortlisted"),
+              )
             }
           >
             Shortlist
@@ -53,9 +63,10 @@ export default function CandidateCard({
         )}
         {actions.includes("offer") && (
           <button
+            type="button"
             className="btn btn-plain"
             onClick={(e) =>
-              handleClick(e, () => onStatusChange(candidate.id, "offered"))
+              handleClick(e, () => onStatusChange?.(candidate.id, "offered"))
             }
           >
             Offer
@@ -63,9 +74,10 @@ export default function CandidateCard({
         )}
         {actions.includes("reject") && (
           <button
+            type="button"
             className="btn btn-danger"
             onClick={(e) =>
-              handleClick(e, () => onStatusChange(candidate.id, "rejected"))
+              handleClick(e, () => onStatusChange?.(candidate.id, "rejected"))
             }
           >
             Reject
@@ -73,8 +85,9 @@ export default function CandidateCard({
         )}
         {actions.includes("delete") && (
           <button
+            type="button"
             className="btn btn-danger"
-            onClick={(e) => handleClick(e, () => onDelete(candidate.id))}
+            onClick={(e) => handleClick(e, () => onDelete?.(candidate.id))}
           >
             Delete
           </button>
