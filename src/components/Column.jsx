@@ -13,7 +13,7 @@ export default function Column({ title, candidates, status, onStatusChange }) {
   const columnCandidates = candidates.filter((c) => c.status === status);
   return (
     <section className={`column column-${status}`}>
-      <h3 className="column-title">{title}</h3>
+      <h2 className="column-title">{title}</h2>
       {columnCandidates.length === 0 ? (
         <p className="message message-empty">No candidates yet!</p>
       ) : (
@@ -22,7 +22,7 @@ export default function Column({ title, candidates, status, onStatusChange }) {
             // prevent cards from being mixed up when
             // it moves to another column
             // key={} is for React to match each card to the same
-            // card on the next render
+            // card on the next render and is required when using map
             key={c.id}
             candidate={c}
             actions={ACTIONS_BY_STATUS[status]}
