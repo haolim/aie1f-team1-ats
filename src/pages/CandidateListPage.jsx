@@ -1,7 +1,8 @@
 // src/pages/CandidateListPage.jsx
 import { useState } from 'react';
+import { Link } from 'react-router';
 import styles from './CandidateListPage.module.css';
-import { Search, UserPlus, RefreshCw, ExternalLink } from 'lucide-react';
+import { Search, UserPlus, RefreshCw, ExternalLink, User } from 'lucide-react';
 
 export default function CandidateListPage({ candidates, isLoading, fetchError, onRefresh, onNavigateAdd }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,6 +62,7 @@ export default function CandidateListPage({ candidates, isLoading, fetchError, o
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Resume</th>
+                <th>Profile</th>
               </tr>
             </thead>
             <tbody>
@@ -78,6 +80,12 @@ export default function CandidateListPage({ candidates, isLoading, fetchError, o
                     ) : (
                       '—'
                     )}
+                  </td>
+                  <td>
+                    <Link to={`/candidates/${candidate.id}`} className={styles.profileButton}>
+                      <User className={styles.buttonIcon} />
+                      View Full Profile
+                    </Link>
                   </td>
                 </tr>
               ))}
