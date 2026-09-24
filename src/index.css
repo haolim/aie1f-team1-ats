@@ -244,6 +244,12 @@ a {
   margin: 0 auto;
 }
 
+.candidate-detail-page {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
 .form-panel {
   padding: 1.25rem;
   border: 1px solid var(--line);
@@ -438,6 +444,20 @@ a {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
+}
+
+.candidate-detail-page .detail {
+  max-width: none;
+}
+
+.detail-notes {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.detail-notes h2 {
+  margin-bottom: 0.6rem;
 }
 
 .detail-row {
