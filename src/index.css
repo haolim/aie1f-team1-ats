@@ -238,6 +238,19 @@ a {
   margin-bottom: 1.5rem;
 }
 
+.add-candidate-page {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.form-panel {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
 /* ---------------------------------------------------------------------
    5. BUTTONS — always "btn" plus one colour
    Works on <button> and on <Link>. Links lose their underline here,
@@ -374,6 +387,10 @@ a {
   max-width: 480px;
 }
 
+.form-panel .form {
+  max-width: none;
+}
+
 .form-field {
   display: flex;
   flex-direction: column;
@@ -408,6 +425,7 @@ a {
 
 .form-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 0.5rem;
 }
 
@@ -535,5 +553,21 @@ a {
 
   .board {
     grid-template-columns: 1fr;
+  }
+
+  .add-candidate-page {
+    max-width: none;
+  }
+
+  .form-panel {
+    padding: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions .btn {
+    width: 100%;
   }
 }

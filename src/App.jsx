@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import RootLayout from '../layouts/RootLayout';
 import CandidateListPage from './pages/CandidateListPage';
 import AddCandidatePage from './pages/AddCandidatePage';
@@ -7,10 +8,16 @@ import AddCandidatePage from './pages/AddCandidatePage';
 const API_URL = 'https://6ab1e4975b9b60f39d34323a.mockapi.io/candidates';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('list');
+  const location = useLocation();
+  const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
+  const activePage = location.pathname === '/add' ? 'add' : 'list';
+
+  const setActivePage = (page) => {
+    navigate(page === 'add' ? '/add' : '/');
+  };
 
   const fetchCandidates = useCallback(async () => {
     setIsLoading(true);
@@ -39,11 +46,11 @@ export default function App() {
           isLoading={isLoading}
           fetchError={fetchError}
           onRefresh={fetchCandidates}
-          onNavigateAdd={() => setActivePage('add')}
+          onNavigateAdd={() => navigate('/add')}
         />
       ) : (
         <AddCandidatePage
-          onNavigateBack={() => setActivePage('list')}
+          onNavigateBack={() => navigate('/')}
           onCandidateAdded={(newC) => setCandidates((current) => [newC, ...current])}
           candidates={candidates}
         />
