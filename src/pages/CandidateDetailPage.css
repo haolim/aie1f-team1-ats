@@ -1,0 +1,22 @@
+.candidate-detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.candidate-detail-page > .btn {
+  align-self: flex-start;
+}
+
+.candidate-detail-page .detail-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.candidate-detail-page-actions {
+  display: flex;
+  gap: 0.5rem;
+}
