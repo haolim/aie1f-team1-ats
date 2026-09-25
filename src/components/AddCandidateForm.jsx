@@ -1,20 +1,19 @@
 // src/components/AddCandidateForm.jsx
-import { useState } from 'react';
-import { candidateSchema } from '../../validation/candidateSchema';
-import { useNavigate } from 'react-router';
-
-const API_URL = 'https://6ab1e4975b9b60f39d34323a.mockapi.io/candidates';
+import { useState } from "react";
+import { candidateSchema } from "../../validation/candidateSchema";
+import { useNavigate } from "react-router";
+import { API_BASE } from "../config";
 
 export default function AddCandidateForm({ onCandidateAdded }) {
   const navigate = useNavigate();
 
   const initialValues = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    mobile: '',
-    resume_link: '',
-    notes: '',
+    first_name: "",
+    last_name: "",
+    email: "",
+    mobile: "",
+    resume_link: "",
+    notes: "",
   };
 
   const [formData, setFormData] = useState(initialValues);
@@ -31,7 +30,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       candidateSchema
         .validateAt(name, { ...formData, [name]: value })
         .then(() => {
-          setErrors((current) => ({ ...current, [name]: '' }));
+          setErrors((current) => ({ ...current, [name]: "" }));
         })
         .catch((error) => {
           setErrors((current) => ({ ...current, [name]: error.message }));
@@ -46,7 +45,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
     candidateSchema
       .validateAt(name, formData)
       .then(() => {
-        setErrors((current) => ({ ...current, [name]: '' }));
+        setErrors((current) => ({ ...current, [name]: "" }));
       })
       .catch((error) => {
         setErrors((current) => ({ ...current, [name]: error.message }));
@@ -57,25 +56,30 @@ export default function AddCandidateForm({ onCandidateAdded }) {
     event.preventDefault();
 
     try {
-      const validated = await candidateSchema.validate(formData, { abortEarly: false });
+      const validated = await candidateSchema.validate(formData, {
+        abortEarly: false,
+      });
       setIsSubmitting(true);
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...validated, status: 'review' }),
+      const response = await fetch(`${API_BASE}/candidates`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...validated, status: "review" }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save candidate. Please try again.');
+        throw new Error("Failed to save candidate. Please try again.");
       }
 
       const data = await response.json();
-      setSubmitStatus({ type: 'success', message: 'Candidate added successfully!' });
+      setSubmitStatus({
+        type: "success",
+        message: "Candidate added successfully!",
+      });
       setFormData(initialValues);
       setErrors({});
       setTouched({});
       if (onCandidateAdded) onCandidateAdded(data);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       if (error.inner) {
         const fieldErrors = {};
@@ -84,7 +88,10 @@ export default function AddCandidateForm({ onCandidateAdded }) {
         });
         setErrors(fieldErrors);
       } else {
-        setSubmitStatus({ type: 'error', message: error.message || 'Something went wrong. Please try again.' });
+        setSubmitStatus({
+          type: "error",
+          message: error.message || "Something went wrong. Please try again.",
+        });
       }
     } finally {
       setIsSubmitting(false);
@@ -94,9 +101,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
   return (
     <form onSubmit={handleSubmit} className="form">
       <div className="form-field">
-        <label htmlFor="first_name">
-          First Name *
-        </label>
+        <label htmlFor="first_name">First Name *</label>
         <input
           id="first_name"
           name="first_name"
@@ -110,9 +115,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       </div>
 
       <div className="form-field">
-        <label htmlFor="last_name">
-          Last Name *
-        </label>
+        <label htmlFor="last_name">Last Name *</label>
         <input
           id="last_name"
           name="last_name"
@@ -126,9 +129,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       </div>
 
       <div className="form-field">
-        <label htmlFor="email">
-          Email *
-        </label>
+        <label htmlFor="email">Email *</label>
         <input
           id="email"
           name="email"
@@ -166,7 +167,9 @@ export default function AddCandidateForm({ onCandidateAdded }) {
           onBlur={handleBlur}
           placeholder="https://example.com/resume"
         />
-        {errors.resume_link && <p className="form-error">{errors.resume_link}</p>}
+        {errors.resume_link && (
+          <p className="form-error">{errors.resume_link}</p>
+        )}
       </div>
 
       <div className="form-field">
@@ -184,17 +187,25 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       </div>
 
       {submitStatus && (
-        <p className={submitStatus.type === 'error' ? 'form-error' : 'message'}>
+        <p className={submitStatus.type === "error" ? "form-error" : "message"}>
           {submitStatus.message}
         </p>
       )}
 
       <div className="form-actions">
-        <button type="button" className="btn btn-plain" onClick={() => navigate('/')}>
+        <button
+          type="button"
+          className="btn btn-plain"
+          onClick={() => navigate("/")}
+        >
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Add Candidate'}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Saving..." : "Add Candidate"}
         </button>
       </div>
     </form>
