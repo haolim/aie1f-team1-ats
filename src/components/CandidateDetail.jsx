@@ -4,9 +4,7 @@ import ErrorMessage from "./ErrorMessage";
 function formatInterviewDate(value) {
   if (!value) return "Not scheduled";
   const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? "Not scheduled"
-    : date.toLocaleString();
+  return Number.isNaN(date.getTime()) ? "Not scheduled" : date.toLocaleString();
 }
 
 export default function CandidateDetail({ candidate, apiBase, onNotesSaved }) {
@@ -21,7 +19,7 @@ export default function CandidateDetail({ candidate, apiBase, onNotesSaved }) {
     setSaveError("");
 
     try {
-      const res = await fetch(`${apiBase}/${candidate.id}`, {
+      const res = await fetch(`${apiBase}/candidates/${candidate.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notes }), // only notes
