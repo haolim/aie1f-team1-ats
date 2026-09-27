@@ -14,6 +14,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
     mobile: "",
     resume_link: "",
     notes: "",
+    interview_date: "",
   };
 
   const [formData, setFormData] = useState(initialValues);
@@ -66,7 +67,6 @@ export default function AddCandidateForm({ onCandidateAdded }) {
         body: JSON.stringify({
           ...validated,
           status: "review",
-          interview_date: "",
         }),
       });
 
