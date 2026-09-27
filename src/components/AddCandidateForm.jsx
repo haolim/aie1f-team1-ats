@@ -63,7 +63,11 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       const response = await fetch(`${API_BASE}/candidates`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...validated, status: "review" }),
+        body: JSON.stringify({
+          ...validated,
+          status: "review",
+          interview_date: "",
+        }),
       });
 
       if (!response.ok) {
