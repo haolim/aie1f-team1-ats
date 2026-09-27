@@ -14,6 +14,7 @@ export default function AddCandidateForm({ onCandidateAdded }) {
     mobile: "",
     resume_link: "",
     notes: "",
+    interview_date: "",
   };
 
   const [formData, setFormData] = useState(initialValues);
@@ -63,7 +64,10 @@ export default function AddCandidateForm({ onCandidateAdded }) {
       const response = await fetch(`${API_BASE}/candidates`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...validated, status: "review" }),
+        body: JSON.stringify({
+          ...validated,
+          status: "review",
+        }),
       });
 
       if (!response.ok) {
